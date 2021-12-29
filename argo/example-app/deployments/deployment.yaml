@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/managed-by: kubectl
   name: tv-auctions-service
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: tv-auctions-service
