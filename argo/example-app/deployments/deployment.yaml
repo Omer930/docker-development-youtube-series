@@ -1,47 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example-deploy
   labels:
-    app: example-app
-  annotations:
+    app.kubernetes.io/name: tv-auctions-service
+    app.kubernetes.io/instance: tv-auctions-service-instance
+    app.kubernetes.io/version: '1.0.0'
+    app.kubernetes.io/managed-by: kubectl
+  name: tv-auctions-service
 spec:
+  replicas: 2
   selector:
     matchLabels:
-      app: example-app
-  replicas: 2
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      app: tv-auctions-service
   template:
     metadata:
       labels:
-        app: example-app
+        app: tv-auctions-service
     spec:
       containers:
-      - name: example-app
-        image: aimvector/python:1.0.1
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 5000
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        volumeMounts:
-        - name: secret-volume
-          mountPath: /secrets/
-        - name: config-volume
-          mountPath: /configs/
-      volumes:
-      - name: secret-volume
-        secret:
-          secretName: mysecret
-      - name: config-volume
-        configMap:
-          name: example-config #name of our configmap object
+        - image: 663319559600.dkr.ecr.eu-west-2.amazonaws.com/tv-auctions-service-uat:latest
+          imagePullPolicy: Always
+          name: tv-auctions-service
+          ports:
+            - containerPort: 3002
+          envFrom:
+            - configMapRef:
+                name: tv-auctions-service-config
+            - secretRef:
+                name: tv-auctions-service-secret
