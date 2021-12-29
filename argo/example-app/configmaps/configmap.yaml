@@ -1,10 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: example-config
+  name: tv-auctions-service-config
 data:
-  config.json: |
-    {
-      "environment" : "dev"
-    }
-# kubectl create configmap example-config --from-file ./golang/configs/config.json
+  DB_HOST: tv-marketplace-uat-eks-cluster-cluster.cluster-cclgpkz0evwf.eu-west-2.rds.amazonaws.com
+  NODE_ENV: qa
+  SERVICE_NAME: tv_auctions_service
+  SERVICE_TAGS: qa
+  REDIS_HOST: tv-uat-redis.i4w71z.0001.euw2.cache.amazonaws.com
+  REDIS_PORT: "6379"
+  REDIS_EXPIRYTIME: "3600"
+
